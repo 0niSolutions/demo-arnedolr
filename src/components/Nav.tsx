@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Menu, Phone, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Logo } from './Logo'
-import { CONTACT, waLink } from '../data/site'
+import { waLink } from '../data/site'
 import { ButtonAnchor } from './ui'
 
 const LINKS = [
@@ -71,18 +71,6 @@ export function Nav() {
             {/* Wrappers: `hidden sm:block` sobre el padre, porque un `hidden`
                 directo en el boton no le gana al `inline-flex` de BASE. */}
             <span className="hidden sm:block">
-              <ButtonAnchor
-                href={`tel:${CONTACT.phones[0].raw}`}
-                variant="ghost"
-                size="sm"
-                className={
-                  scrolled ? 'text-ink/70 hover:text-ink' : 'text-cream/80 hover:text-cream'
-                }
-                sheen={false}
-              >
-                <Phone className="h-3.5 w-3.5" />
-                {CONTACT.phones[0].display}
-              </ButtonAnchor>
             </span>
 
             <span className="hidden sm:block">
@@ -148,15 +136,7 @@ export function Nav() {
                 >
                   Contactarme por WhatsApp
                 </ButtonAnchor>
-                <ButtonAnchor
-                  href={`tel:${CONTACT.phones[0].raw}`}
-                  variant="outline"
-                  sheen={false}
-                  onClick={() => setOpen(false)}
-                >
-                  <Phone className="h-4 w-4" />
-                  {CONTACT.phones[0].display}
-                </ButtonAnchor>
+               
               </div>
             </nav>
           </motion.div>

@@ -49,7 +49,7 @@ export const CONTACT = {
   email: 'arnedolr@gmail.com',
   address: 'Vicente López 477, 8° "A"',
   addressShort: 'Vicente López 477, 8° "A", Salta',
-  hours: { days: 'Lunes a Días', time: '9:00 hs a 18:00 hs' },
+  hours: { days: 'Lunes a Domingo', time: '9:00 hs a 18:00 hs' },
   social: [
     { name: 'Instagram', handle: '@arnedolr', href: 'https://www.instagram.com/arnedolr/' },
     { name: 'Facebook', handle: '/arnedo.lr', href: 'https://www.facebook.com/arnedo.lr' },

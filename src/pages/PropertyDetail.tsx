@@ -125,14 +125,31 @@ export function PropertyDetail() {
             transition={{ duration: 0.7, ease: EASE }}
             className="relative overflow-hidden rounded-4xl shadow-lift-lg sm:rounded-5xl"
           >
-            <PropertyImage property={p} className="aspect-[16/11] sm:aspect-[21/9]">
+            {/*
+              showPrice={false} es lo que hace que los children ocupen toda la
+              imagen. Con el default (true) los mete en una barra inferior de
+              altura fija, que es el layout de las cards: en el hero de la ficha
+              aplastaba el contenido contra el borde de abajo.
+            */}
+            <PropertyImage
+              property={p}
+              className="aspect-[16/11] sm:aspect-[21/9]"
+              showPrice={false}
+            >
               <div className="flex h-full w-full flex-col justify-between p-5 sm:p-8">
                 <div className="flex flex-wrap gap-2">
                   <Badge tone="light">{TYPE_LABEL[p.type]}</Badge>
                   {p.featured && <Badge tone="ember">Destacada</Badge>}
                 </div>
 
-                <div className="flex flex-wrap items-end justify-between gap-4">
+                {/*
+                  En movil estas dos placas tapaban la foto: el marco es 16/11 y
+                  entre el precio y la ubicacion se comian la mitad de la
+                  imagen. Solo se muestran desde sm; en movil el precio va
+                  debajo y la ubicacion ya esta en el texto de abajo, asi que
+                  no se repite.
+                */}
+                <div className="hidden items-end justify-between gap-4 sm:flex">
                   <div className="flex items-center gap-2 rounded-full bg-bark-950/55 px-3.5 py-1.5 text-[0.8rem] font-medium text-cream backdrop-blur-md">
                     <MapPin className="h-3.5 w-3.5 text-ember-400" />
                     {p.neighborhood}, {p.city}
@@ -149,6 +166,16 @@ export function PropertyDetail() {
                 </div>
               </div>
             </PropertyImage>
+
+            {/* Precio en movil, debajo de la foto para no taparla */}
+            <div className="mt-4 flex items-baseline justify-between gap-3 rounded-2xl bg-sand px-4 py-3 sm:hidden">
+              <span className="text-[0.62rem] font-bold tracking-[0.15em] text-stone uppercase">
+                Precio referencial
+              </span>
+              <span className="font-display text-[1.5rem] leading-none text-ink">
+                {formatUsd(p.priceUsd)}
+              </span>
+            </div>
           </motion.div>
 
           {/* Grilla principal */}
