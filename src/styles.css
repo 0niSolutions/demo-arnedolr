@@ -1,0 +1,256 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   ARNEDOLR — Design tokens
+   Paleta heredada del sitio original + cartaampliada para
+   mantener la identidad (#cb5b3b terracotta / #ff914d naranja
+   / marrón calido) con mas rango tonal.
+   ============================================================ */
+
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+  /* Neutros calidos */
+  --color-cream: #f8f8f0;
+  --color-sand: #efede9;
+  --color-mist: #e3dfd8;
+  /* stone se usa para texto secundario chico, asi que va oscuro a proposito:
+     #a29b94 daba 2.7:1 sobre blanco, muy por debajo del 4.5:1 de AA. */
+  --color-stone: #6e665f;
+  --color-graphite: #6b6165;
+  --color-ink: #2e2a2c;
+
+  /* Marrones de marca */
+  --color-bark-50: #f6f1ea;
+  --color-bark-100: #e8ddcd;
+  --color-bark-200: #cfba9e;
+  --color-bark-400: #8a6435;
+  --color-bark-600: #4e3312;
+  --color-bark-700: #422901;
+  --color-bark-800: #33220a;
+  --color-bark-900: #241705;
+  --color-bark-950: #150d03;
+
+  /* Terracota (acento principal heredado) */
+  --color-clay-50: #fdf4f1;
+  --color-clay-100: #fae5dd;
+  --color-clay-200: #f3c8b8;
+  --color-clay-300: #e79c7f;
+  --color-clay-400: #e07a57;
+  --color-clay-500: #cb5b3b;
+  --color-clay-600: #b04a2c;
+  /* clay-700 es el tono que permite texto blanco AA sobre el CTA:
+     clay-500 daba 3.05:1 y clay-600 4.12:1, los dos insufficientes. */
+  --color-clay-700: #8d3a23;
+  --color-clay-700: #8d3a23;
+
+  /* Naranja ember (CTA) */
+  --color-ember-300: #ffc199;
+  --color-ember-400: #ffab6b;
+  --color-ember-500: #ff914d;
+  --color-ember-600: #f2711f;
+  --color-ember-700: #d15a10;
+
+  /* Verde semaforo. #25d366 es el verde de marca pero con texto blanco da
+     1.98:1, asi que para superficies de boton va signal-700. */
+  --color-signal-500: #25d366;
+  --color-signal-600: #1eb455;
+  --color-signal-700: #0d7a43;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+
+  --shadow-lift: 0 1px 2px rgb(46 42 44 / 0.04), 0 12px 32px -12px rgb(46 42 44 / 0.18);
+  --shadow-lift-lg: 0 2px 4px rgb(46 42 44 / 0.05), 0 28px 56px -20px rgb(46 42 44 / 0.28);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  * {
+    border-color: --alpha(var(--color-mist) / 100%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco visible y consistente (la web original no lo tenia) */
+  :focus-visible {
+    outline: 2px solid var(--color-clay-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: --alpha(var(--color-ember-500) / 30%);
+  }
+}
+
+/* ============================================================
+   Utilidades
+   ============================================================ */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 80rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Degradado de marca para texto y superficies */
+@utility text-gradient-brand {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-ember-400) 0%,
+    var(--color-clay-400) 55%,
+    var(--color-clay-500) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(
+  135deg,
+  var(--color-ember-500) 0%,
+  var(--color-clay-500) 100%
+  );
+  }
+
+/* Degradado para superficies con texto blanco encima. */
+@utility bg-cta-gradient {
+  background-image: linear-gradient(
+  135deg,
+  var(--color-clay-700) 0%,
+  var(--color-clay-600) 100%
+  );
+  }
+
+/* Grano sutil para que los fondos oscuros no se vean planos */
+@utility bg-noise {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.28;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+/* Ocultar scrollbar en carruseles */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1.5deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float-slow,
+  .animate-pulse-ring {
+    animation: none;
+  }
+}

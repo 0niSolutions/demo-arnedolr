@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+*.tsbuildinfo
+
+# Salidas de los scripts de QA. Son artefactos locales, se regeneran con
+# npm run shots / npm run styles / npm run og
+screenshots/
+qa-*.log
+contrast-*.png
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Editor / SO
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Playwright
+test-results/
+playwright-report/
+.playwright/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
