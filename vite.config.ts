@@ -1,42 +1,32 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 /**
  * `base` define donde se publican los assets.
  *
- * En GitHub Pages la app cuelga de /<repo>/ y no de la raiz, asi que el base tiene
- * que incluir el nombre del repo. Se lee de VITE_BASE y, si no esta, se deduce de
- * la variable GITHUB_REPOSITORY que inyecta Actions. Un repo llamado
- * USUARIO.github.io publica en la raiz, y ahi el base queda en "/".
+ * En Netlify la app se sirve en la raiz del dominio (demo-arnedolr.netlify.app/),
+ * asi que el base es "/". Solo hace falta cambiarlo si el sitio quedara colgando
+ * de un subpath, tipo un repo de GitHub Pages en /<repo>/.
  *
- * Ojo: un base relativo ("./") no sirve, porque las rutas del SPA son anidadas
- * (/propiedad/casa-el-tipal) y los assets relativos se resolverian contra
- * /propiedad/. Tiene que ser absoluto.
+ * No se deduce del entorno a proposito: adivinar el base desde el nombre del
+ * repo es fragil y el fallo es silencioso (los assets dan 404 y la pagina sale
+ * en blanco). Se declara explicito con VITE_BASE, en el panel de Netlify o en
+ * un .env.local.
  */
-function resolveBase(env: Record<string, string | undefined>): string {
-  const explicit = env.VITE_BASE?.trim()
-  if (explicit) return explicit === '/' ? '/' : explicit.replace(/\/$/, '')
+export default defineConfig(({ command, mode }) => {
+  // loadEnv con prefijo '' trae tambien variables sin el prefijo VITE_.
+  const env = loadEnv(mode, process.cwd(), '')
+  const raw = env.VITE_BASE?.trim() || '/'
+  const base = raw === '/' ? '/' : raw.replace(/\/$/, '')
 
-  const repo = env.GITHUB_REPOSITORY?.trim() // "usuario/repo"
-  if (repo) {
-    const name = repo.split('/')[1] ?? ''
-    // Los repos de usuario u organizacion publican en la raiz del dominio.
-    if (!name || name.toLowerCase().endsWith('.github.io')) return '/'
-    return `/${name}`
+  return {
+    // En dev siempre en "/", para no arrastrar el base de produccion al local.
+    base: command === 'serve' ? '/' : base,
+    plugins: [react(), tailwindcss()],
+    server: {
+      port: 5173,
+      open: true,
+    },
   }
-
-  return '/'
-}
-
-const base = resolveBase(process.env)
-
-export default defineConfig(({ command }) => ({
-  // En dev siempre en "/", para no arrastrar el base de Pages al host local.
-  base: command === 'serve' ? '/' : base,
-  plugins: [react(), tailwindcss()],
-  server: {
-    port: 5173,
-    open: true,
-  },
-}))
+})

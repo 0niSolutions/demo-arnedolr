@@ -1,0 +1,46 @@
+# Configuracion de Netlify: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # La app se sirve en la raiz del dominio, asi que el base es "/".
+  # Se declara aca y no se deduce del repo: adivinarlo rompe los assets en
+  # silencio y la pagina sale en blanco.
+  VITE_BASE = "/"
+  # Origen publico, para canonical y Open Graph. Sin esto, Seo.tsx cae en
+  # window.location.origin y anda bien, pero queda menos explicito.
+  VITE_SITE_ORIGIN = "https://demo-arnedolr.netlify.app"
+
+# Netlify no hace rewrite de rutas. Sin esto, abrir /propiedad/casa-el-tipal en
+# frio devuelve 404 en vez de servir la SPA.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Las imagenes de public/ son muchisimas y pesan; que el navegador no las
+# vuelva a pedir en cada visita.
+[[headers]]
+  for = "/propiedades/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/logo-mark.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Los assets de Vite llevan hash en el nombre, asi que se pueden cachear para
+# siempre. El HTML no, porque es el que referencia los nombres con hash.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

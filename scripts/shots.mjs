@@ -2,7 +2,9 @@
 import { chromium } from 'playwright'
 import { mkdirSync } from 'node:fs'
 
-const BASE = 'http://localhost:5173'
+// El dev server corre en 5173, pero en CI se sirve el build con vite preview en
+// 4173. BASE_URL lo sobreescribe; si no esta, se usa el dev.
+const BASE = process.env.BASE_URL || 'http://localhost:5173'
 const OUT = 'screenshots'
 mkdirSync(OUT, { recursive: true })
 

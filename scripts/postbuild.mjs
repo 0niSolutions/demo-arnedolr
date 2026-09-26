@@ -1,39 +1,31 @@
 /**
- * GitHub Pages no tiene rewrite de rutas: si alguien entra directo a
- * /propiedad/casa-el-tipal, Pages busca ese archivo, no lo encuentra y devuelve
- * 404. La unica salida sin dominio propio es servir un 404.html que sea el
- * index.html, para que la SPA arranque y lea la ruta de window.location.
+ * Corre despues de vite build (netlify.toml no lo invoca; lo encadena package.json).
  *
- * Se ejecuta despues de vite build.
+ * Solo valida, no genera archivos: en Netlify el fallback de rutas lo resuelve
+ * la regla de redireccion de netlify.toml, asi que no hace falta el 404.html
+ * trick de GitHub Pages.
  *
- *   node scripts/postbuild.mjs
+ * Lo que si se verifica, porque el fallo es silencioso:
+ *  - que los assets cuelguen de la raiz (si el base queda mal, dan 404 y la
+ *    pagina sale en blanco)
+ *  - que canonical y og:url apunten al dominio configurado (si no, el link
+ *    compartido en redes apunta al sitio viejo)
  */
-import { copyFileSync, existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
-const DIST = 'dist'
-const INDEX = join(DIST, 'index.html')
-const NOT_FOUND = join(DIST, '404.html')
+const INDEX = join('dist', 'index.html')
 
 if (!existsSync(INDEX)) {
   console.error('  No existe dist/index.html. Corré primero "npm run build".')
   process.exit(1)
 }
 
-copyFileSync(INDEX, NOT_FOUND)
-
-/**
- * Pages sirve .nojekyll para no pasarle los archivos que empiezan con _ y evitar
- * que los Theme de Jekyll los toque. Sin esto, cualquier carpeta con _ puede
- * desaparecer del deploy.
- */
-writeFileSync(join(DIST, '.nojekyll'), '')
-
 const html = readFileSync(INDEX, 'utf8')
 
-// La URL del sitio de Canva era el origen de la demo. Si se queda pegada en
-// las etiquetas estaticas, los buscadores y las redes van a apuntar al sitio
-// viejo, y no se nota mirando la pagina: hay que revisarlo.
+// Origen esperado, segun lo que define netlify.toml en el build.
+const esperado = process.env.VITE_SITE_ORIGIN?.replace(/\/$/, '')
+
 const VIEJO = 'arnedolr.my.canva.site'
 if (html.includes(VIEJO)) {
   console.error(`\n  \x1b[31mERROR\x1b[0m dist/index.html todavia referencia ${VIEJO}`)
@@ -41,26 +33,35 @@ if (html.includes(VIEJO)) {
   process.exit(1)
 }
 
-// Reporta con que base quedaron los assets, que es lo primero que se rompe.
+if (esperado) {
+  const canonicas = [...html.matchAll(/(?:rel="canonical" href|og:url" content)="([^"]+)"/g)].map(
+    (m) => m[1],
+  )
+  const desviadas = canonicas.filter((u) => !u.startsWith(esperado))
+  if (desviadas.length > 0) {
+    console.error(`\n  \x1b[31mERROR\x1b[0m canonical/og:url no coinciden con VITE_SITE_ORIGIN (${esperado}):`)
+    for (const d of desviadas) console.error(`         ${d}`)
+    process.exit(1)
+  }
+  console.log(`  postbuild: canonical y og:url -> ${esperado}`)
+}
+
+// Assets: tienen que estar todos bajo la raiz. Un base con subpath solo
+// funciona si el sitio se sirve bajo ese subpath, y en Netlify es la raiz.
 const assets = [...html.matchAll(/(?:src|href)="([^"]+)"/g)]
   .map((m) => m[1])
   .filter((u) => /\.(js|css|webp|png|jpe?g|svg)$/i.test(u))
-
-const absolute = assets.filter((u) => u.startsWith('/'))
 const relative = assets.filter((u) => u.startsWith('.'))
-
-console.log('  postbuild: dist/404.html generado (fallback de SPA)')
-console.log('  postbuild: dist/.nojekyll generado')
 
 if (relative.length > 0) {
   console.log(`  \x1b[31mALERTA\x1b[0m ${relative.length} asset(s) con ruta relativa: ${relative.join(', ')}`)
-  console.log('         En Pages eso se rompe con rutas anidadas. Revisar el base de vite.config.ts.')
-} else if (absolute.length > 0) {
-  const prefix = absolute[0].split('/').slice(0, 2).join('/')
-  console.log(`  postbuild: base detectado "${prefix}/" en ${absolute.length} asset(s)`)
-  if (prefix === '/assets' || prefix === '/') {
-    console.log('  \x1b[33mOJO\x1b[0m el base es "/". Si el repo NO es USUARIO.github.io, los assets van a 404.')
-  }
+  console.log('         Se rompe con rutas anidadas (/propiedad/x). Revisar VITE_BASE.')
 } else {
-  console.log('  \x1b[33mOJO\x1b[0m no se encontro ningun asset con ruta absoluta en index.html')
+  const conPrefijo = assets.filter((u) => u.split('/').length > 3)
+  if (conPrefijo.length > 0) {
+    console.log(`  \x1b[33mOJO\x1b[0m ${conPrefijo.length} asset(s) con subpath (ej: ${conPrefijo[0]}).`)
+    console.log('         Si el sitio se sirve en la raiz (Netlify), esos dan 404. Revisar VITE_BASE.')
+  } else {
+    console.log(`  postbuild: ${assets.length} assets en la raiz, sin subpath`)
+  }
 }
