@@ -51,7 +51,7 @@ console.log('\n\x1b[1mLinks de WhatsApp\x1b[0m')
 const phone = src.match(/whatsapp: '(\d+)'/)?.[1]
 phone && /^\d{10,15}$/.test(phone) ? ok(`numero ${phone} (formato wa.me correcto)`) : bad(`telefono invalido: ${phone}`)
 
-const sample = 'Hola ARNEDOLR, vi la propiedad "Casa en El Tipal" (El Tipal) en la web y me interesa. ¿Me podés pasar más información?'
+const sample = 'Hola ARNEDO LR, vi la propiedad "Casa en El Tipal" (El Tipal) en la web y me interesa. ¿Me podés pasar más información?'
 const encoded = encodeURIComponent(sample)
 encoded.includes('%20') && !encoded.includes(' ') && encoded.includes('%C2%BF')
   ? ok('el mensaje con acentos y signos se codifica bien')

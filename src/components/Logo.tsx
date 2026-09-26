@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { assetUrl } from '../lib/assets'
 
 /**
- * Logo ARNEDOLR. El simbolo es el archivo real provisto por el cliente
+ * Logo ARNEDO LR. El simbolo es el archivo real provisto por el cliente
  * (public/logo.png, 243x187 con alfa). El wordmark sigue en texto para poder
  * ajustar el tracking y el color segun el fondo.
  */
@@ -22,7 +22,7 @@ export function Logo({
     <Link
       to="/"
       className={`group inline-flex items-center gap-2.5 ${className}`}
-      aria-label="ARNEDOLR — ir al inicio"
+      aria-label="ARNEDO LR — ir al inicio"
     >
       <img
         src={assetUrl('/logo-mark.webp')}
@@ -36,7 +36,7 @@ export function Logo({
         <span
           className={`text-[1.02rem] font-bold tracking-[0.24em] transition-colors ${main}`}
         >
-          ARNEDOLR
+          ARNEDO LR
         </span>
         {withTagline && (
           <span className={`mt-1 text-[0.6rem] font-semibold tracking-[0.18em] uppercase ${sub}`}>

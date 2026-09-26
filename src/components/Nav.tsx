@@ -75,7 +75,7 @@ export function Nav() {
 
             <span className="hidden sm:block">
               <ButtonAnchor
-                href={waLink('Hola ARNEDOLR, quiero consultar por una propiedad.')}
+                href={waLink('Hola ARNEDO LR, quiero consultar por una propiedad.')}
                 size="sm"
               >
                 Contactarme
@@ -131,7 +131,7 @@ export function Nav() {
 
               <div className="mt-4 grid gap-2.5">
                 <ButtonAnchor
-                  href={waLink('Hola ARNEDOLR, quiero consultar por una propiedad.')}
+                  href={waLink('Hola ARNEDO LR, quiero consultar por una propiedad.')}
                   onClick={() => setOpen(false)}
                 >
                   Contactarme por WhatsApp

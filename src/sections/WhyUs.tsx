@@ -33,7 +33,7 @@ export function WhyUs() {
         <div className="grid gap-14 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
             <SectionHeading
-              eyebrow="Por qué ARNEDOLR"
+              eyebrow="Por qué ARNEDO LR"
               title={
                 <>
                   Una inmobiliaria

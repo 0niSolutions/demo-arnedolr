@@ -32,7 +32,7 @@ export function CtaBanner() {
               <div className="mt-9 flex flex-wrap justify-center gap-3">
                 <ButtonAnchor
                   href={waLink(
-                    'Hola ARNEDOLR, quiero hacerles una consulta sobre una búsqueda a medida.',
+                    'Hola ARNEDO LR, quiero hacerles una consulta sobre una búsqueda a medida.',
                   )}
                   size="lg"
                 >

@@ -11,7 +11,7 @@ export function Home() {
   return (
     <>
       <Seo
-        title="ARNEDOLR · Inmobiliaria en Salta"
+        title="ARNEDO LR · Inmobiliaria en Salta"
         description="Inmobiliaria en Salta, Argentina. Casas, departamentos, galpones y terrenos en San Lorenzo, Grand Bourg, Tres Cerritos y más. Tasaciones, compra, venta y alquiler."
         path="/"
       />

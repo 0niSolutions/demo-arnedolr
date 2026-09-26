@@ -57,7 +57,7 @@ export function Seo({
     // El canonical necesita el base: en Pages la URL real es
     // ORIGIN/demo-arnedolr/propiedad/x, no ORIGIN/propiedad/x.
     const url = `${ORIGIN}${import.meta.env.BASE_URL || '/'}${path.replace(/^\/+/, '')}`
-    const fullTitle = path === '/' ? title : `${title} · ARNEDOLR`
+    const fullTitle = path === '/' ? title : `${title} · ARNEDO LR`
 
     document.title = fullTitle
 
@@ -82,7 +82,7 @@ export function Seo({
     upsertMeta('meta[property="og:image:width"]', { property: 'og:image:width', content: '1200' })
     upsertMeta('meta[property="og:image:height"]', { property: 'og:image:height', content: '630' })
     upsertMeta('meta[property="og:locale"]', { property: 'og:locale', content: 'es_AR' })
-    upsertMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: 'ARNEDOLR' })
+    upsertMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: 'ARNEDO LR' })
 
     upsertMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' })
     upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: fullTitle })

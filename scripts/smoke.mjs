@@ -101,7 +101,7 @@ check(
 console.log('\n\x1b[1mSEO por ruta\x1b[0m')
 
 const title = await page.title()
-check('el title incluye la marca', title.includes('ARNEDOLR'), title)
+check('el title incluye la marca', title.includes('ARNEDO LR'), title)
 
 const desc = await page.getAttribute('meta[name="description"]', 'content')
 check('hay meta description', !!desc && desc.length > 40, `${desc?.length} caracteres`)

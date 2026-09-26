@@ -62,7 +62,7 @@ await page.evaluate(() => {
     <div class="brand">
       <div class="mark">A</div>
       <div>
-        <div class="name">ARNEDOLR</div>
+        <div class="name">ARNEDO LR</div>
         <div class="tag">Inmobiliaria &middot; Salta</div>
       </div>
     </div>

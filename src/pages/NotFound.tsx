@@ -39,7 +39,7 @@ export function NotFound() {
               Ir al inicio
             </ButtonLink>
             <ButtonAnchor
-              href={waLink('Hola ARNEDOLR, llegué a una página que no existe. ¿Me ayudás?')}
+              href={waLink('Hola ARNEDO LR, llegué a una página que no existe. ¿Me ayudás?')}
               variant="outline"
               size="lg"
               sheen={false}

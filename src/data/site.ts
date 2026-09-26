@@ -40,7 +40,7 @@ export interface Property {
 /* ------------------------------------------------------------------ contacto */
 
 export const CONTACT = {
-  brand: 'ARNEDOLR',
+  brand: 'ARNEDO LR',
   whatsapp: '543874199305',
   phones: [
     { display: '+54 9 3874 15-2835', raw: '+543875252835' },
@@ -381,7 +381,7 @@ export function getProperty(slug: string): Property | undefined {
 
 export function waForProperty(property: Property): string {
   return waLink(
-    `Hola ARNEDOLR, vi la propiedad "${property.title}" (${property.neighborhood}) en la web y me interesa. Â¿Me podÃ©s pasar mÃ¡s informaciÃ³n?`,
+    `Hola ARNEDO LR, vi la propiedad "${property.title}" (${property.neighborhood}) en la web y me interesa. Â¿Me podÃ©s pasar mÃ¡s informaciÃ³n?`,
   )
 }
 

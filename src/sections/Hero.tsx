@@ -71,7 +71,7 @@ export function Hero() {
 
             <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-3">
               <ButtonAnchor
-                href={waLink('Hola ARNEDOLR, quiero consultar por una propiedad.')}
+                href={waLink('Hola ARNEDO LR, quiero consultar por una propiedad.')}
                 size="lg"
               >
                 <MessageCircle className="h-5 w-5 fill-current" />

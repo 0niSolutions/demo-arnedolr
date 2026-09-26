@@ -2,7 +2,7 @@
 node_modules/
 
 # Otro proyecto que esta suelto dentro de esta carpeta (BAUS). No es parte de
-# la demo de ARNEDOLR y arrastra 11.000+ archivos.
+# la demo de ARNEDO LR y arrastra 11.000+ archivos.
 baus/
 
 # Build

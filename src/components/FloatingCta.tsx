@@ -52,7 +52,7 @@ export function FloatingCta() {
         {show && (
           <motion.a
             key="wa-fab"
-            href={waLink('Hola ARNEDOLR, quiero consultar por una propiedad.')}
+            href={waLink('Hola ARNEDO LR, quiero consultar por una propiedad.')}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Contactar por WhatsApp"

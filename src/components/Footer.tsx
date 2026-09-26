@@ -145,7 +145,7 @@ export function Footer() {
               </ul>
 
               <a
-                href={waLink('Hola ARNEDOLR, quiero consultar por una propiedad.')}
+                href={waLink('Hola ARNEDO LR, quiero consultar por una propiedad.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex h-11 items-center gap-2.5 rounded-full bg-signal-700 px-5 text-[0.88rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-signal-600"
